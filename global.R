@@ -34,7 +34,7 @@ boroughs_mad <- house_prices %>%
 price_max_min <- house_prices %>%
   summarise(Max = max(Price), Min = min(Price))
 
-#Vector with the different Boroughs
+#Vector with the different Boroughs (we just get the first column)
 boroughs_names <- boroughs_mad[,1]
 
 #Vector with the different choices of SD for the calculations
