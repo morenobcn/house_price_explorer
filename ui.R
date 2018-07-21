@@ -4,12 +4,11 @@ library(shinydashboard)
 
 #shiny dashboard has different panels, header sidebar and body 
 shinyUI(dashboardPage(skin = "black", 
-    dashboardHeader(title = "London House Prices Stats Explorer", titleWidth = 550),
+    dashboardHeader(title = "London House Prices Stats Explorer (2017-18)", titleWidth = 600),
     dashboardSidebar(width = 350,
         
         #this is the logo and name of the company, imgae will be round
-        #sidebarUserPanel("JLL - Nacho Moreno",
-                         #image = "https://jll.box.com/shared/static/mk08h1r6t4e3w8didvjxrzofy74jf260.png"),
+        #sidebarUserPanel('Nacho Moreno',image = "https://jll.box.com/shared/static/mk08h1r6t4e3w8didvjxrzofy74jf260.png"),
         
         #we add the two menus called Map and data to 
         br(),
@@ -26,12 +25,12 @@ shinyUI(dashboardPage(skin = "black",
         
        #this selects the sd we will use to filter our dataset
         selectizeInput("selected_mad",
-                       "Select MAD factor",
+                       "Select MAD factor*",
                        mad_options),
        
        
        #Adding the range slider for the quartiles
-       sliderInput("slider_quantiles", "Select quantiles", min = 0.1, 
+       sliderInput("slider_quantiles", "Select percentile**", min = 0.1, 
                    max = 1, step=.1, value = c(0, 1)),
        
         #Multi select for boroughs
@@ -69,7 +68,12 @@ shinyUI(dashboardPage(skin = "black",
                              infoBoxOutput("countBox")),
                     #this row adds the map and the histogram so the actual info
                     fluidRow(box(plotlyOutput("boxplot")),
-                             box(plotlyOutput("ggplot_histogram")))), 
+                             box(plotlyOutput("ggplot_histogram"))),
+                    fluidRow(box(textOutput("text"), width = 12))
+                    ), 
+            
+            
+            
                     
                     
             #we add here the table

@@ -117,6 +117,13 @@ shinyServer(function(input, output, session){
       infoBox(
         paste("Total count of properties"), count, icon = icon("home"), color="black")
     })
+    
+  #Disclaimer text
+    
+  output$text <- renderText({
+    HTML('* The MAD factor is used to filter the data based on the Median Absolute Deviation (MAD). Selecting higher values will mean the dataset will include higher nad lower value outliers. **The percentile will segment the market. 
+Selecting 0.8 to 1, will show the Top 20% of the properties, selecting 0.1 to 0.2 will show the low end 20% of the market. Dataset: Land Registry. Values 2017 to June 2018.')
+    })
 
   #Show the map using leaflet
   output$map <- renderLeaflet({
@@ -145,7 +152,7 @@ shinyServer(function(input, output, session){
       group_by(Borough) %>%
       summarise(Median = median(Price), Mean = mean(Price), Max = max(Price), Min = min(Price), Count = n())
     
-    ###### WE WORK ON THE MAP#########
+    ###### THE MAP#########
     
     
     #We merge with our data now
