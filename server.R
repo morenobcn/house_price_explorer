@@ -33,6 +33,33 @@ shinyServer(function(input, output, session){
       
     })
     
+    summary_data <- reactive({
+      
+      i = 1
+      house_prices_mad <- as_tibble()
+      for (i in 1:nrow(boroughs_mad)){
+        filtered_mad <- house_prices %>%
+          filter(Borough == as.character(boroughs_mad[i,1])) %>%
+          filter(between(Price,((as.double(input$selected_mad)*as.double(boroughs_mad[i,2]))-as.double(boroughs_mad[i,3])),((as.double(input$selected_mad)*as.double(boroughs_mad[i,2]))+as.double(boroughs_mad[i,3])))) %>%
+          filter(between(Price, (quantile(Price, c(input$slider_quantiles[1]))),(quantile(Price, c(input$slider_quantiles[2])))))
+        i = i +1
+        house_prices_mad <- bind_rows(house_prices_mad,filtered_mad)  
+      }
+      
+    summary_borough <- house_prices_mad %>%
+        group_by(Borough) %>%
+        summarise(Median = median(Price), Mean = mean(Price), Max = max(Price), Min = min(Price), Count = n())
+      
+    })
+    
+    datasetInput <- reactive({
+      # Fetch the appropriate data object, depending on the value
+      # of input$dataset.
+      switch(input$download_files,
+             "Filtered dataset" = borough_data(),
+             "Summary data" = summary_data())
+    })
+    
     
     #Boxplot
     output$boxplot <-renderPlotly({
@@ -159,64 +186,35 @@ shinyServer(function(input, output, session){
     # show data using DataTable
     output$data <- DT::renderDataTable({
       
-      i = 1
-      house_prices_mad <- as_tibble()
-      
-      for (i in 1:nrow(boroughs_mad)){
-        filtered_mad <- house_prices %>%
-          filter(Borough == as.character(boroughs_mad[i,1])) %>%
-          filter(between(Price,((as.double(input$selected_mad)*as.double(boroughs_mad[i,2]))-as.double(boroughs_mad[i,3])),((as.double(input$selected_mad)*as.double(boroughs_mad[i,2]))+as.double(boroughs_mad[i,3])))) %>%
-          filter(between(Price, (quantile(Price, c(input$slider_quantiles[1]))),(quantile(Price, c(input$slider_quantiles[2])))))
-        i = i +1
-        house_prices_mad <- bind_rows(house_prices_mad,filtered_mad)  
-      }
-      
-      #Filter the data by the selected borough for representations
-      
-      borough_data <- house_prices_mad %>%
-        filter(Borough %in% input$selected_boroughs)
-      
-      #Create a dataset with the output by borough so we can map this data, we only do this once
-      summary_borough <- house_prices_mad %>%
-        group_by(Borough) %>%
-        summarise(Median = median(Price), Mean = mean(Price), Max = max(Price), Min = min(Price), Count = n())
       
       
-      datatable(summary_borough, rownames=FALSE, 
+      datatable(summary_data(), rownames=FALSE, 
                 options = list(
-                  pageLength = 15,
+                  pageLength = 33,
                   order = list(list(1, 'desc')))) %>% 
         formatStyle(input$selected, background="skyblue", fontWeight='bold') #we highlight the selected column
     })
     
     
     ###########Download the data
-    datasetInput <- reactive({
-      i = 1
-      house_prices_mad <- as_tibble()
+    output$downloadData <- downloadHandler(
       
-      for (i in 1:nrow(boroughs_mad)){
-        filtered_mad <- house_prices %>%
-          filter(Borough == as.character(boroughs_mad[i,1])) %>%
-          filter(between(Price,((as.double(input$selected_mad)*as.double(boroughs_mad[i,2]))-as.double(boroughs_mad[i,3])),((as.double(input$selected_mad)*as.double(boroughs_mad[i,2]))+as.double(boroughs_mad[i,3])))) %>%
-          filter(between(Price, (quantile(Price, c(input$slider_quantiles[1]))),(quantile(Price, c(input$slider_quantiles[2])))))
-        i = i +1
-        house_prices_mad <- bind_rows(house_prices_mad,filtered_mad)  
+      # This function returns a string which tells the client
+      # browser what name to use when saving the file.
+      filename = function() {
+        paste(input$download_files,c('csv') ,sep = ".")
+      },
+      
+      # This function should write data to a file given to it by
+      # the argument 'file'.
+      content = function(file) {
+        
+        
+        # Write to a file specified by the 'file' argument
+        write.table(datasetInput(), file, sep = ',',
+                    row.names = FALSE)
       }
-      
-      #Create a dataset with the output by borough so we can map this data, we only do this once
-      summary_borough <- house_prices_mad %>%
-        group_by(Borough) %>%
-        summarise(Median = median(Price), Mean = mean(Price), Max = max(Price), Min = min(Price), Count = n())
-      
-      # Fetch the appropriate data object, depending on the value
-      # of input$dataset.
-      switch(input$ddownload_files,
-             "Filtered dataset" = house_prices_mad,
-             "Boroughs Summary" = summary_borough)
-      
-      
-    })
+    )
     
     
     })

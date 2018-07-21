@@ -40,10 +40,10 @@ shinyUI(dashboardPage(skin = "black",
                        choices = boroughs_names, multiple = TRUE, selected=c('BROMLEY','WALTHAM FOREST', 'CAMDEN')),
         
        
-       radioButtons("download_files", "Download dataset",
-                    choices = c("Filtered dataset", "Boroughs Summary")),
+       selectInput("download_files", "Download dataset",
+                    choices = c("Filtered dataset", "Summary data")),
        
-        downloadButton('downloadData', 'Download')
+      downloadButton('downloadData', 'Download')
       
        
        #HTML('<font size=2>   The MAD factor is used to filter the data based on the Median Absolute Deviation (MAD). Higher value will discard lesser outliers </font size=2>
