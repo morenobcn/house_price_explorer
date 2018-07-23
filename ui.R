@@ -30,7 +30,7 @@ shinyUI(dashboardPage(skin = "black",
        
        
        #Adding the range slider for the quartiles
-       sliderInput("slider_quantiles", "Select percentile**", min = 0.1, 
+       sliderInput("slider_quantiles", "Select percentile**", min = 0.0, 
                    max = 1, step=.1, value = c(0, 1)),
        
         #Multi select for boroughs
