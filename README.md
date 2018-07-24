@@ -15,9 +15,36 @@ The main issue working with this dataset and in particular when working with tra
 
 ### Cleanse the data and discard outliers
 
-Is a common practice to filter big datasets setting a minimum and maximum value arbitrarily. This method although effective introduces an important bias in our sample since we don't take into consideration that each geographical area is different. Also given the fact Thats why within teh Shiny App we have created the method o
+Although is common practice, would be wrong to cleanse the data only applying a minimum and max values filter to the whole datase, mainly because the below reasons:
 
+ 1. The highly skewed distribution of the price range 
+ 2. The vairability of prices within each group
+ 
+To tackle the first issue we decided to implement the MAD (Median Abosolute Deviation) instead of the standard deviation to be less dependent on the variance of the data and apply a factor below and above the median to implement the data. So a '2' factor will discard values 2 times above or below the Median. The higher the factor aplied will result in more extreme values to be included in the final smaple. 
+
+At the same time and to avoid geographical bias we apply this methodology per each Borough. That is, we calculate the median and MAD for each borough and is with this data that we apply the MAD factor filtering. In other words, a 1million pounds house in a central Borough wont be considered an outlier but might be discarded if the hosue is located in one of the outer Boroughs. 
+ 
 ### Market segmentation
+
+Real Estate investors market their properties to very specific segments of the market, i.e for the top end of the market. HAving the capability ot dinamically select which 'slice' of the market we are interested in analyze is then a very useful tool when analyzing the house prices. 
+
+With the percentiles slider implemented then the user can easily select the segment of the market he is interested in. For example to analyze the top end of the market would be as easy as to select fro 0.8 to 1 in the slider
+
+### Download the data
+
+Since this is a tool to do an initial analysis of the data a download capability has also been implemented. We can download either the full dataset once is cleansed according to user selection or as well a Borough summary for convenience.
+
+## Next steps
+
+This application should be extended to allow the following:
+
+ 1. 
+
+
+
+
+
+
 
 
 
