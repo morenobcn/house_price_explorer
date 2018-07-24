@@ -26,6 +26,7 @@ To tackle the first issue, we decided to implement the MAD (Median Absolute Devi
 
 At the same time and to avoid geographical bias we apply this methodology **per each Borough**. That is, we calculate the median and MAD for each borough and is with this data that we apply the MAD factor filtering. In other words, a 1million pounds house in a central Borough won’t be considered an outlier but might be discarded if the house is located in one of the outer Boroughs. 
 
+![screenshot_1](https://user-images.githubusercontent.com/36007042/43162508-40ad3e6a-8f59-11e8-9732-819506ba48d3.png)
 
  
 ### Market segmentation
