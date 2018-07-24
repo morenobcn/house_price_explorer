@@ -4,7 +4,7 @@ Access the hosted Shiny Application: https://natxomoreno.shinyapps.io/London_Hou
 
 ### Project background
 
-[Land Registry](https://www.gov.uk/government/statistical-data-sets/price-paid-data-downloads, 'Price Paid, Land Registry') publishs data for each transaction that is registered in England & Wales. This data has been used extensively for many analysis, from price evolution in time to assess the price difference in different areas. This dataset is publicly available under the government licence. and dates back to 1995.
+[Land Registry](https://www.gov.uk/government/statistical-data-sets/price-paid-data-downloads, 'Price Paid, Land Registry') publishes data for each transaction that is registered in England & Wales. This data has been used extensively for many analysis, from price evolution in time to assess the price difference in different areas. This dataset is publicly available under the government licence. and dates back to 1995.
 
 The main variables we find in each dataset are the location of the transaction (with full postcode), the type of asset (Other, Detached, ...) and the price. Unfortunately, there is no qualitative or quantitative information of each asset (an area would be very useful indeed).
 
