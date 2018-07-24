@@ -141,7 +141,7 @@ Selecting 0.8 to 1, will show the Top 20% of the properties, selecting 0.1 to 0.
     
     #Custom labels for the hover over
     labels <- sprintf(
-      "<strong>%s</strong><br/>%s (pounds)",
+      "<strong>%s</strong><br/>%s",
       boroughs_to_map$name, format(round(boroughs_to_map$Median, digits=0), big.mark = ",")
     ) %>% 
       lapply(htmltools::HTML)
@@ -164,7 +164,7 @@ Selecting 0.8 to 1, will show the Top 20% of the properties, selecting 0.1 to 0.
                          colors =c("#F8CDA9",  "#F6B784", "#F19447", "#ED700A"),
                          labels= c("Lower Quartile", "","","Top Quartile"),
                          #value = ~Median, 
-                         title = 'Median House Price (pounds)') 
+                         title = 'Median House Price (pounds sterling)') 
     
   })
     

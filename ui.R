@@ -8,7 +8,7 @@ shinyUI(dashboardPage(skin = "black",
     dashboardSidebar(width = 350,
         
         #this is the logo and name of the company, imgae will be round
-        #sidebarUserPanel('Nacho Moreno',image = "https://jll.box.com/shared/static/mk08h1r6t4e3w8didvjxrzofy74jf260.png"),
+        #sidebarUserPanel('',image = "https://jll.box.com/shared/static/mk08h1r6t4e3w8didvjxrzofy74jf260.png"),
         
         #we add the menus called Boxplot, map and data to the sidebar 
         br(),
@@ -20,7 +20,7 @@ shinyUI(dashboardPage(skin = "black",
         ),
         
         #adding a bit of blank space
-        br(),
+        #br(),
        
         
        #this selects the MAD we will use to filter our dataset
@@ -57,14 +57,16 @@ shinyUI(dashboardPage(skin = "black",
         ),
         tabItems(
             tabItem(tabName = "boxplot",
+                    
+                    #this row adds the map and the histogram so the actual info
+                    fluidRow(box(plotlyOutput("boxplot")),
+                             box(plotlyOutput("ggplot_histogram"))),
                     #Each row is evenly distributed depdending on the number of rows, no need to add the width
                     #these are the different cards with the data in teh first row of the body
                     fluidRow(infoBoxOutput("meanBox"),
                              infoBoxOutput("medianBox"),
                              infoBoxOutput("countBox")),
-                    #this row adds the map and the histogram so the actual info
-                    fluidRow(box(plotlyOutput("boxplot")),
-                             box(plotlyOutput("ggplot_histogram"))),
+                    
                     fluidRow(box(textOutput("text"), width = 12)) #width 12 is the max of the page
                     ), 
             
