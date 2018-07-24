@@ -35,6 +35,8 @@ Real Estate investors market their properties to very specific market segments, 
 
 With the percentiles slider implemented the user can easily select the segment of the market he is interested in. For example, to analyse the top end of the market would be as easy as to select for 0.8 to 1 in the slider
 
+![screenshot_2](https://user-images.githubusercontent.com/36007042/43162671-c1d10fd0-8f59-11e8-863a-268f425b1b5d.png)
+
 ### Download the data
 
 Since this is a tool which objective is to implement specific criteria to filter and segment a dataset the download capability has also been implemented. We can download either the full dataset once is cleansed according to user selection or a Borough summary for convenience.
