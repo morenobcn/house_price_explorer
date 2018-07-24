@@ -8,7 +8,7 @@ Access the hosted Shiny Application: https://natxomoreno.shinyapps.io/London_Hou
 
 The main variables we find in each dataset are the location of the transaction (with full postcode), the type of asset (Other, Detached, ...) and the price. Unfortunately, there is no qualitative or quantitative information of each asset (an area would be very useful indeed).
 
-The main issue working with this dataset, particularly when working with any transactional dataset (Residential, Offices, ...) is that the distribution is usually really skewed. For this reason, we have created a tool with two main objectives:
+The main issue working with this dataset, particularly when working with any transactional dataset (Residential, Offices, ...) is that the distribution is usually really skewed, with values of just few thousand pounds to many millions. For this reason, we have created a tool with two main objectives:
 
   * Filter the original dataset based on the Median Absolute Deviation times a factor and this way discard outliers.
   * Further filter the resulting dataset to segment de market data so users can focus in a given upper or lower percentile of the sample.
@@ -25,6 +25,8 @@ Although is common practice, would be wrong to cleanse the data only applying a 
 To tackle the first issue, we decided to implement the MAD (Median Absolute Deviation) instead of the standard deviation to be less dependent on the variance of the data and apply a factor below and above the median to filter the data. So, a '2' factor will discard values 2 times above or below the Median therefore the higher the factor applied will result in more extreme values to be included in the final sample. 
 
 At the same time and to avoid geographical bias we apply this methodology **per each Borough**. That is, we calculate the median and MAD for each borough and is with this data that we apply the MAD factor filtering. In other words, a 1million pounds house in a central Borough won’t be considered an outlier but might be discarded if the house is located in one of the outer Boroughs. 
+
+
  
 ### Market segmentation
 
