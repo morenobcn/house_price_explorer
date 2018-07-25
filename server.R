@@ -21,7 +21,7 @@ shinyServer(function(input, output, session){
       for (i in 1:nrow(boroughs_mad)){
         filtered_mad <- house_prices %>%
           filter(Borough == as.character(boroughs_mad[i,1])) %>%
-          filter(between(Price,((as.double(input$selected_mad)*as.double(boroughs_mad[i,2]))-as.double(boroughs_mad[i,3])),((as.double(input$selected_mad)*as.double(boroughs_mad[i,2]))+as.double(boroughs_mad[i,3])))) %>%
+          filter(between(Price,(as.double(boroughs_mad[i,3])-(as.double(input$selected_mad)*as.double(boroughs_mad[i,2]))),((as.double(input$selected_mad)*as.double(boroughs_mad[i,2]))+as.double(boroughs_mad[i,3])))) %>%
           filter(between(Price, (quantile(Price, c(input$slider_quantiles[1]))),(quantile(Price, c(input$slider_quantiles[2])))))
         i = i +1
         house_prices_mad <- bind_rows(house_prices_mad,filtered_mad)  
@@ -41,7 +41,7 @@ shinyServer(function(input, output, session){
       for (i in 1:nrow(boroughs_mad)){
         filtered_mad <- house_prices %>%
           filter(Borough == as.character(boroughs_mad[i,1])) %>%
-          filter(between(Price,((as.double(input$selected_mad)*as.double(boroughs_mad[i,2]))-as.double(boroughs_mad[i,3])),((as.double(input$selected_mad)*as.double(boroughs_mad[i,2]))+as.double(boroughs_mad[i,3])))) %>%
+          filter(between(Price,(as.double(boroughs_mad[i,3])-(as.double(input$selected_mad)*as.double(boroughs_mad[i,2]))),((as.double(input$selected_mad)*as.double(boroughs_mad[i,2]))+as.double(boroughs_mad[i,3])))) %>%
           filter(between(Price, (quantile(Price, c(input$slider_quantiles[1]))),(quantile(Price, c(input$slider_quantiles[2])))))
         i = i +1
         house_prices_mad <- bind_rows(house_prices_mad,filtered_mad)  
@@ -71,7 +71,7 @@ shinyServer(function(input, output, session){
       ggplot(borough_data(),aes(x=Borough, y =Price)) + #note that we use the reactive expression with all the data
           geom_boxplot(fill='#E30613', color="darkred", outlier.size = 0.5) +
           theme_minimal() +
-          labs(title='House prices spread by Borough', y='Count of properties', x='Borough', caption='Data from Land Registry')
+          labs(title='House prices spread by Borough', y='House Prices', x='Borough', caption='Data from Land Registry')
       })
     
     #GGPlot histogram with the mean
@@ -126,7 +126,7 @@ shinyServer(function(input, output, session){
   #Disclaimer text at the bottom of the page
     
   output$text <- renderText({
-    HTML('* The MAD factor is used to filter the data based on the Median Absolute Deviation (MAD). Selecting higher values will mean the dataset will include higher nad lower value outliers. **The percentile will segment the market. 
+    HTML('* The MAD factor is used to filter the data based on the Median Absolute Deviation (MAD). Selecting higher values will mean the dataset will include higher and lower value outliers. **The percentile will segment the market. 
 Selecting 0.8 to 1, will show the Top 20% of the properties, selecting 0.1 to 0.2 will show the low end 20% of the market. Dataset: Land Registry. Values 2017 to June 2018.')
     })
 
@@ -149,7 +149,7 @@ Selecting 0.8 to 1, will show the Top 20% of the properties, selecting 0.1 to 0.
     #plot the map
     boroughs_to_map %>%
       leaflet(options = leafletOptions(preferCanvas = TRUE)) %>% #not sure what the prefer canvas does
-      addProviderTiles(providers$CartoDB.DarkMatterNoLabels)  %>% #this is the basemap
+      addProviderTiles(providers$CartoDB.DarkMatter)  %>% #this is the basemap
       addPolygons(weight = 1,
                            color = 'Black',
                            opacity = 0.7,
