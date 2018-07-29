@@ -68,19 +68,23 @@ shinyServer(function(input, output, session){
     output$boxplot <-renderPlotly({ #since we are using renderploty we dont even need to use the function ggplotly()
       
     #GGplot boxplot with the data
-      ggplot(borough_data(),aes(x=Borough, y =Price)) + #note that we use the reactive expression with all the data
-          geom_boxplot(fill='#E30613', color="darkred", outlier.size = 0.5) +
+      ggplot(borough_data(),aes(x=Borough, y =Price, fill=Borough)) + #note that we use the reactive expression with all the data
+          geom_boxplot(colur = line, lwd=0.25,outlier.size = 0.5) +
+          scale_fill_manual(values=c("#E30613", "#000000", "#626468", "#DBD6C7", "#7874B5", "#602376", "#ED700A")) +
           theme_minimal() +
+        theme(legend.position="none") +
           labs(title='House prices spread by Borough', y='House Prices', x='Borough', caption='Data from Land Registry')
       })
     
     #GGPlot histogram with the mean
     output$ggplot_histogram <-renderPlotly({ 
       
-    ggplot(borough_data(), aes(x=Price)) + 
-        geom_histogram(binwidth=25000,fill='#E30613') +
+    ggplot(borough_data(), aes(x=Price, fill=Borough)) +
+        scale_fill_manual(values=c("#E30613", "#000000", "#626468", "#DBD6C7", "#7874B5", "#602376", "#ED700A")) +
+        geom_histogram(binwidth=25000) +
         geom_vline(xintercept= mean(borough_data()$Price),colour='grey20',size=0.5,linetype=2) +
         theme_minimal() +
+        theme(legend.position="none") +
         labs(title='House prices distribution (with mean)', y='Count of properties', x='House Prices', caption='Data from Land Registry')
    })
     
